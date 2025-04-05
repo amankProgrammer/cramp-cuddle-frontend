@@ -1,9 +1,14 @@
-// MoodTracker.tsx
 import { useState, useEffect } from 'react';
 import {
   Frown, Meh, MessageSquare, Plus,
   Save, Send, Smile
 } from 'lucide-react';
+import {
+  fetchMoodEntries,
+  postMoodEntry,
+  fetchMessages,
+  postMessage
+} from '../api';
 
 interface MoodEntry {
   date: string;
@@ -23,12 +28,6 @@ const symptoms = [
   'Backache', 'Nausea', 'Breast tenderness', 'Mood swings'
 ];
 
-const moodColor = {
-  good: 'green',
-  neutral: 'yellow',
-  bad: 'red'
-};
-
 const MoodTracker = () => {
   const [entries, setEntries] = useState<MoodEntry[]>([]);
   const [showForm, setShowForm] = useState(false);
@@ -39,14 +38,12 @@ const MoodTracker = () => {
   const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:4000/backend/entries')
-      .then(res => res.json())
-      .then(data => setEntries(data))
+    fetchMoodEntries()
+      .then(setEntries)
       .catch(err => console.error('Error fetching entries:', err));
 
-    fetch('http://localhost:4000/backend/messages')
-      .then(res => res.json())
-      .then(data => setMessages(data))
+    fetchMessages()
+      .then(setMessages)
       .catch(err => console.error('Error fetching messages:', err));
   }, []);
 
@@ -69,18 +66,13 @@ const MoodTracker = () => {
     };
 
     try {
-      await fetch('http://localhost:4000/backend/entries', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newEntry)
-      });
-
+      const savedEntry = await postMoodEntry(newEntry);
       const updated = [...entries];
       const index = updated.findIndex(entry => entry.date === today);
       if (index >= 0) {
-        updated[index] = newEntry;
+        updated[index] = savedEntry;
       } else {
-        updated.push(newEntry);
+        updated.push(savedEntry);
       }
       setEntries(updated);
     } catch (err) {
@@ -103,12 +95,7 @@ const MoodTracker = () => {
     };
 
     try {
-      await fetch('http://localhost:4000/backend/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(message)
-      });
-
+      await postMessage(message);
       setMessages([message, ...messages]);
       setNewMessage('');
     } catch (err) {
@@ -117,15 +104,17 @@ const MoodTracker = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString(undefined, {
+    const options: Intl.DateTimeFormatOptions = {
       weekday: 'short', month: 'short', day: 'numeric'
-    });
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   const formatMessageTime = (dateString: string) => {
-    return new Date(dateString).toLocaleString(undefined, {
+    const options: Intl.DateTimeFormatOptions = {
       month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-    });
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   const getMoodIcon = (moodType: string) => {
@@ -133,15 +122,8 @@ const MoodTracker = () => {
       case 'good': return <Smile className="text-green-500" />;
       case 'neutral': return <Meh className="text-yellow-500" />;
       case 'bad': return <Frown className="text-red-500" />;
-      default: return <Meh className="text-gray-400" />;
+      default: return <Meh className="text-yellow-500" />;
     }
-  };
-
-  const getMoodButtonClass = (type: 'good' | 'neutral' | 'bad') => {
-    const color = moodColor[type];
-    return mood === type
-      ? `p-3 rounded-full bg-${color}-100 ring-2 ring-${color}-300`
-      : 'p-3 rounded-full bg-gray-50';
   };
 
   return (
@@ -165,12 +147,15 @@ const MoodTracker = () => {
                 How are you feeling today?
               </label>
               <div className="flex justify-between items-center">
-                {(['bad', 'neutral', 'good'] as const).map((type) => (
+                {['bad', 'neutral', 'good'].map((type) => (
                   <button
                     key={type}
                     type="button"
-                    onClick={() => setMood(type)}
-                    className={getMoodButtonClass(type)}
+                    onClick={() => setMood(type as 'bad' | 'neutral' | 'good')}
+                    className={`p-3 rounded-full ${mood === type
+                      ? `bg-${type === 'bad' ? 'red' : type === 'neutral' ? 'yellow' : 'green'}-100 ring-2 ring-${type === 'bad' ? 'red' : type === 'neutral' ? 'yellow' : 'green'}-300`
+                      : 'bg-gray-50'
+                      }`}
                   >
                     {getMoodIcon(type)}
                   </button>
@@ -188,11 +173,10 @@ const MoodTracker = () => {
                     key={symptom}
                     type="button"
                     onClick={() => handleSymptomToggle(symptom)}
-                    className={`py-2 px-3 text-sm rounded-lg text-left ${
-                      selectedSymptoms.includes(symptom)
-                        ? 'bg-pink-100 text-pink-700 border border-pink-200'
-                        : 'bg-white border'
-                    }`}
+                    className={`py-2 px-3 text-sm rounded-lg text-left ${selectedSymptoms.includes(symptom)
+                      ? 'bg-pink-100 text-pink-700 border border-pink-200'
+                      : 'bg-white border'
+                      }`}
                   >
                     {symptom}
                   </button>
