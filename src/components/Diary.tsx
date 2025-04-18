@@ -11,6 +11,7 @@ interface DiaryEntry {
 
 const Diary: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);  // Add this line
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [entries, setEntries] = useState<DiaryEntry[]>([]);
@@ -33,16 +34,19 @@ const Diary: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const response = await diaryApi.login(username, password);
       if (response.success) {
         setUserId(response.userId);
         setIsAuthenticated(true);
         localStorage.setItem('diaryUserId', response.userId);
-        fetchEntries(response.userId);
+        await fetchEntries(response.userId);
       }
     } catch (error) {
       console.error('Login failed:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -96,10 +100,21 @@ const Diary: React.FC = () => {
     }
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-violet-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-violet-600 font-dancing-script text-xl">Opening your diary...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
     return (
       <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center">My Personal Diary</h2>
+        <h2 className="text-2xl font-dancing-script text-center mb-6">Dear Diary...</h2>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <input
@@ -133,53 +148,60 @@ const Diary: React.FC = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">My Diary Entries</h2>
+    <div className="max-w-4xl mx-auto mt-10 p-6">
+      <div className="flex justify-end mb-6">
         <button
           onClick={handleLogout}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+          className="px-4 py-2 text-gray-600 hover:text-gray-800 font-dancing-script text-lg"
         >
-          Logout
+          Close Diary
         </button>
       </div>
-      <form onSubmit={handleAddEntry} className="mb-8">
-        <div className="mb-4">
-          <input
-            type="text"
-            placeholder="Entry Title"
-            value={newEntry.title}
-            onChange={(e) => setNewEntry({ ...newEntry, title: e.target.value })}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <textarea
-            placeholder="Write your entry..."
-            value={newEntry.content}
-            onChange={(e) => setNewEntry({ ...newEntry, content: e.target.value })}
-            className="w-full p-2 border rounded h-32"
-          />
-        </div>
+      
+      <form onSubmit={handleAddEntry} className="mb-8 bg-[#fff8dc] p-6 rounded-lg shadow-md">
+        <input
+          type="text"
+          placeholder="Date..."
+          value={new Date().toLocaleDateString('en-US', { 
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+          className="w-full bg-transparent border-none font-dancing-script text-xl mb-4"
+          readOnly
+        />
+        <textarea
+          placeholder="Dear diary..."
+          value={newEntry.content}
+          onChange={(e) => setNewEntry({ ...newEntry, title: new Date().toLocaleDateString(), content: e.target.value })}
+          className="w-full bg-transparent border-none font-dancing-script text-lg min-h-[200px] focus:outline-none leading-relaxed"
+        />
         <button
           type="submit"
-          className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
+          className="mt-4 text-gray-600 hover:text-gray-800 font-dancing-script text-lg"
         >
-          Add Entry
+          Save Entry
         </button>
       </form>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {entries.map((entry) => (
-          <div key={entry.id} className="border p-4 rounded relative">
-            <h3 className="text-xl font-semibold">{entry.title}</h3>
-            <p className="text-gray-500 text-sm">{new Date(entry.date).toLocaleDateString()}</p>
-            <p className="mt-2">{entry.content}</p>
+          <div key={entry.id} className="bg-[#fff8dc] p-6 rounded-lg shadow-md relative">
+            <p className="font-dancing-script text-lg mb-4">
+              {new Date(entry.date).toLocaleDateString('en-US', { 
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </p>
+            <p className="font-dancing-script text-lg leading-relaxed">{entry.content}</p>
             <button
               onClick={() => handleDeleteEntry(entry.id)}
-              className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
             >
-              Delete
+              ×
             </button>
           </div>
         ))}
