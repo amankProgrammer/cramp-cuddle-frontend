@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import './index.css';
-import { Heart, House, Image, Music } from 'lucide-react';
+import { Heart, House, Image, Music, Book } from 'lucide-react';
 import ComfortMessages from './components/ComfortMessages';
 import SelfCare from './components/SelfCare';
-import MoodTracker from './components/MoodTracker';
 import RelaxationTimer from './components/RelaxationTimer';
 import MusicPlayer from './components/MusicPlayer';
 import Gallery from './components/Gallery';
 import Memories from './components/Memories';
 import Animations from './components/Animations';
+import Diary from './components/Diary';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -35,14 +35,14 @@ const App = () => {
             <SelfCare />
           </div>
         );
-      case 'mood':
-        return <MoodTracker />;
       case 'music':
         return <MusicPlayer />;
       case 'gallery':
         return <Gallery />;
       case 'memories':
         return <Memories />;
+      case 'diary':
+        return <Diary />;
       default:
         return <ComfortMessages />;
     }
@@ -74,13 +74,6 @@ const App = () => {
               <span className="text-xs mt-1">Home</span>
             </button>
             <button
-              onClick={() => setActiveTab('mood')}
-              className={`p-3 flex flex-col items-center ${activeTab === 'mood' ? 'text-violet-500' : 'text-gray-500'}`}
-            >
-              <Heart size={20} />
-              <span className="text-xs mt-1">Mood</span>
-            </button>
-            <button
               onClick={() => setActiveTab('music')}
               className={`p-3 flex flex-col items-center ${activeTab === 'music' ? 'text-violet-500' : 'text-gray-500'}`}
             >
@@ -98,8 +91,15 @@ const App = () => {
               onClick={() => setActiveTab('memories')}
               className={`p-3 flex flex-col items-center ${activeTab === 'memories' ? 'text-violet-500' : 'text-gray-500'}`}
             >
-              <Image size={20} />
+              <Heart size={20} />
               <span className="text-xs mt-1">Memories</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('diary')}
+              className={`p-3 flex flex-col items-center ${activeTab === 'diary' ? 'text-violet-500' : 'text-gray-500'}`}
+            >
+              <Book size={20} />
+              <span className="text-xs mt-1">Diary</span>
             </button>
           </div>
         </div>
