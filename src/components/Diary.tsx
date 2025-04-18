@@ -115,6 +115,10 @@ const Diary: React.FC = () => {
     );
   }
 
+  // Remove the unused handleDeleteEntry function if you don't plan to use it
+  // OR
+  // Add a delete button to use the function in the entries list:
+
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-6">My Diary Entries</h2>
@@ -147,10 +151,16 @@ const Diary: React.FC = () => {
 
       <div className="space-y-4">
         {entries.map((entry) => (
-          <div key={entry.id} className="border p-4 rounded">
+          <div key={entry.id} className="border p-4 rounded relative">
             <h3 className="text-xl font-semibold">{entry.title}</h3>
             <p className="text-gray-500 text-sm">{new Date(entry.date).toLocaleDateString()}</p>
             <p className="mt-2">{entry.content}</p>
+            <button
+              onClick={() => handleDeleteEntry(entry.id)}
+              className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+            >
+              Delete
+            </button>
           </div>
         ))}
       </div>
