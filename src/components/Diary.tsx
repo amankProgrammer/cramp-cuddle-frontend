@@ -17,6 +17,20 @@ const Diary: React.FC = () => {
   const [newEntry, setNewEntry] = useState({ title: '', content: '' });
   const [userId, setUserId] = useState<string | null>(null);
 
+  // Add a logout function
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setUserId(null);
+    localStorage.removeItem('diaryUserId');
+  };
+
+  useEffect(() => {
+    // Clear any existing session when component mounts
+    localStorage.removeItem('diaryUserId');
+    setIsAuthenticated(false);
+    setUserId(null);
+  }, []);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -85,45 +99,50 @@ const Diary: React.FC = () => {
   if (!isAuthenticated) {
     return (
       <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-6">My Personal Diary</h2>
-        <form onSubmit={handleLogin}>
-          <div className="mb-4">
+        <h2 className="text-2xl font-bold mb-6 text-center">My Personal Diary</h2>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
             <input
               type="text"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-violet-500"
+              required
             />
           </div>
-          <div className="mb-4">
+          <div>
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-violet-500"
+              required
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+            className="w-full bg-violet-500 text-white p-2 rounded hover:bg-violet-600 transition-colors"
           >
-            Login
+            Login / Register
           </button>
         </form>
       </div>
     );
   }
 
-  // Remove the unused handleDeleteEntry function if you don't plan to use it
-  // OR
-  // Add a delete button to use the function in the entries list:
-
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-6">My Diary Entries</h2>
-      
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">My Diary Entries</h2>
+        <button
+          onClick={handleLogout}
+          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+        >
+          Logout
+        </button>
+      </div>
       <form onSubmit={handleAddEntry} className="mb-8">
         <div className="mb-4">
           <input
