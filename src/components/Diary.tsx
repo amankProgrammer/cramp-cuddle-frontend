@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { diaryApi } from '../api/diaryApi';
 
+// Update the interface to match MongoDB response
 interface DiaryEntry {
-  id: string;
+  _id: string;
+  userId: string;
   title: string;
   content: string;
   date: string;
+  __v?: number; // Add this to match MongoDB document version
 }
 
 const Diary: React.FC = () => {
@@ -53,10 +56,22 @@ const Diary: React.FC = () => {
   const fetchEntries = async (currentUserId: string) => {
     try {
       const data = await diaryApi.getEntries(currentUserId);
-      setEntries(Array.isArray(data) ? data : []); // Ensure entries is always an array
+      // Handle the response data more safely
+      if (data && typeof data === 'object') {
+        const entries = Array.isArray(data) ? data : [];
+        setEntries(entries.map(entry => ({
+          _id: entry._id || '',
+          userId: entry.userId || '',
+          title: entry.title || '',
+          content: entry.content || '',
+          date: entry.date || new Date().toISOString()
+        })));
+      } else {
+        setEntries([]);
+      }
     } catch (error) {
       console.error('Failed to fetch entries:', error);
-      setEntries([]); // Set empty array on error
+      setEntries([]);
     }
   };
 
@@ -67,7 +82,7 @@ const Diary: React.FC = () => {
     try {
       const response = await diaryApi.addEntry(
         userId,
-        newEntry.title,
+        new Date().toLocaleDateString(),  // Use current date as title
         newEntry.content
       );
       if (response.success) {
@@ -80,9 +95,10 @@ const Diary: React.FC = () => {
   };
 
   const handleDeleteEntry = async (entryId: string) => {
+    if (!entryId || !userId) return;
     try {
       const response = await diaryApi.deleteEntry(entryId);
-      if (response.success && userId) {
+      if (response.success) {
         fetchEntries(userId);
       }
     } catch (error) {
@@ -187,7 +203,7 @@ const Diary: React.FC = () => {
 
       <div className="space-y-6">
         {entries.map((entry) => (
-          <div key={entry.id} className="bg-[#fff8dc] p-6 rounded-lg shadow-md relative">
+          <div key={entry._id} className="bg-[#fff8dc] p-6 rounded-lg shadow-md relative">
             <p className="font-dancing-script text-lg mb-4">
               {new Date(entry.date).toLocaleDateString('en-US', { 
                 weekday: 'long',
@@ -198,7 +214,7 @@ const Diary: React.FC = () => {
             </p>
             <p className="font-dancing-script text-lg leading-relaxed">{entry.content}</p>
             <button
-              onClick={() => handleDeleteEntry(entry.id)}
+              onClick={() => handleDeleteEntry(entry._id)}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
             >
               ×

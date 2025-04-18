@@ -1,6 +1,7 @@
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
 
 interface DiaryEntry {
+  _id: string;
   id: string;
   userId: string;
   title: string;
