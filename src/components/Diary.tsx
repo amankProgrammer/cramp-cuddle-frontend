@@ -12,9 +12,11 @@ interface DiaryEntry {
   __v?: number; // Add this to match MongoDB document version
 }
 
+// Move isRegistering state to the top with other states
 const Diary: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);  // Add this line
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [entries, setEntries] = useState<DiaryEntry[]>([]);
@@ -127,11 +129,36 @@ const Diary: React.FC = () => {
     );
   }
 
+  // Add separate handlers for login and register
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const response = await (isRegistering 
+        ? diaryApi.register(username, password)
+        : diaryApi.login(username, password));
+      
+      if (response.success) {
+        setUserId(response.userId);
+        setIsAuthenticated(true);
+        localStorage.setItem('diaryUserId', response.userId);
+        await fetchEntries(response.userId);
+      }
+    } catch (error) {
+      console.error(isRegistering ? 'Registration failed:' : 'Login failed:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Update the form submission in the login/register section
   if (!isAuthenticated) {
     return (
       <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-dancing-script text-center mb-6">Dear Diary...</h2>
-        <form onSubmit={handleLogin} className="space-y-4">
+        <h2 className="text-2xl font-dancing-script text-center mb-6">
+          {isRegistering ? "Create Your Diary" : "Dear Diary..."}
+        </h2>
+        <form onSubmit={handleAuth} className="space-y-4">
           <div>
             <input
               type="text"
@@ -156,16 +183,26 @@ const Diary: React.FC = () => {
             type="submit"
             className="w-full bg-violet-500 text-white p-2 rounded hover:bg-violet-600 transition-colors"
           >
-            Login / Register
+            {isRegistering ? "Create Account" : "Login"}
           </button>
         </form>
+        <button
+          onClick={() => setIsRegistering(!isRegistering)}
+          className="w-full mt-4 text-violet-500 hover:text-violet-600 font-dancing-script"
+        >
+          {isRegistering ? "Already have a diary? Login" : "Create a new diary"}
+        </button>
       </div>
     );
   }
-
+  
+  // Update the authenticated view header to show entry count
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6">
-      <div className="flex justify-end mb-6">
+      <div className="flex justify-between items-center mb-6">
+        <p className="font-dancing-script text-lg text-gray-600">
+          {entries.length} {entries.length === 1 ? 'entry' : 'entries'} in your diary
+        </p>
         <button
           onClick={handleLogout}
           className="px-4 py-2 text-gray-600 hover:text-gray-800 font-dancing-script text-lg"

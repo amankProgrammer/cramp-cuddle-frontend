@@ -43,4 +43,15 @@ export const diaryApi = {
     });
     return response.json();
   },
+
+  register: async (username: string, password: string) => {
+    const response = await fetch(`${BASE_URL}/api/diary/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    });
+    return response.json();
+  },
 };
