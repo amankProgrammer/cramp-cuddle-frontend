@@ -130,6 +130,7 @@ const Diary: React.FC = () => {
   }
 
   // Add separate handlers for login and register
+  // Remove the old handleLogin function and keep only handleAuth
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -150,6 +151,11 @@ const Diary: React.FC = () => {
       setIsLoading(false);
     }
   };
+  
+  // Update the form's onSubmit handler
+  <form onSubmit={handleAuth} className="space-y-4">
+    {/* ... form inputs ... */}
+  </form>
 
   // Update the form submission in the login/register section
   if (!isAuthenticated) {
