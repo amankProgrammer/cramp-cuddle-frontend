@@ -35,9 +35,10 @@ const Diary: React.FC = () => {
   const fetchEntries = async (currentUserId: string) => {
     try {
       const data = await diaryApi.getEntries(currentUserId);
-      setEntries(data);
+      setEntries(Array.isArray(data) ? data : []); // Ensure entries is always an array
     } catch (error) {
       console.error('Failed to fetch entries:', error);
+      setEntries([]); // Set empty array on error
     }
   };
 
