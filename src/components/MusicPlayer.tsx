@@ -12,10 +12,17 @@ interface Track {
 }
 
 const MusicPlayer = () => {
-  // Add new state for playlist selection
+  const [tracks, setTracks] = useState<Track[]>([]);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(0.7);
+  const [isMuted, setIsMuted] = useState(false);
+  const [showSoundCloud, setShowSoundCloud] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState('bollywood');
-  
-  // Add playlist options
+
+  // Move soundCloudPlaylists outside of return statement
   const soundCloudPlaylists = {
     bollywood: {
       url: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1702546110&color=%23ff5500&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
