@@ -202,8 +202,7 @@ const MusicPlayer = () => {
                 Top 50 Bollywood Songs 2025
               </a>
             </div>
-          </div>
-          <div className="rounded-lg overflow-hidden">
+
             <iframe width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1659831878&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
             ></iframe>
             <div className="text-xs text-gray-400 mt-2 break-words">
