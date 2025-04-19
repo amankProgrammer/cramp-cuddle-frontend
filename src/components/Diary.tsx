@@ -130,7 +130,8 @@ const Diary: React.FC = () => {
   }
 
   // Add separate handlers for login and register
-  // Remove the old handleLogin function and keep only handleAuth
+  // Remove handleLogin function completely
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
