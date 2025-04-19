@@ -202,14 +202,16 @@ const MusicPlayer = () => {
                 Top 50 Bollywood Songs 2025
               </a>
             </div>
+          </div>
+          <div className="rounded-lg overflow-hidden">
             <iframe width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1659831878&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
             ></iframe>
-            <div style="text-xs text-gray-400 mt-2 break-words">
+            <div className="text-xs text-gray-400 mt-2 break-words">
                 <a
                     href="https://soundcloud.com/tania-tania-658084779"
                     title="New Punjabi Songs"
                     target="_blank"
-                    style="color: #cccccc; text-decoration: none;"
+                    className="hover:text-violet-500"
                 >
                     New Punjabi Songs
                 </a> ·
@@ -217,7 +219,7 @@ const MusicPlayer = () => {
                     href="https://soundcloud.com/tania-tania-658084779/sets/best-punjabi-hits-songs-2023"
                     title="Best 50 Punjabi Hits Songs 2025 🔥"
                     target="_blank"
-                    style="color: #cccccc; text-decoration: none;"
+                    className="hover:text-violet-500"
                 >
                     Best 50 Punjabi Hits Songs 2025 🔥
                 </a>
