@@ -181,7 +181,7 @@ const MusicPlayer = () => {
               scrolling="no"
               frameBorder="no"
               allow="autoplay"
-              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1702546110&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1702546110&color=%23ff5500&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
             ></iframe>
             <div className="text-xs text-gray-400 mt-2 break-words">
               <a
