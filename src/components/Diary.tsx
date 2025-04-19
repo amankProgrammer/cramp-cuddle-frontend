@@ -22,6 +22,7 @@ const Diary: React.FC = () => {
   const [entries, setEntries] = useState<DiaryEntry[]>([]);
   const [newEntry, setNewEntry] = useState({ title: '', content: '' });
   const [userId, setUserId] = useState<string | null>(null);
+  const [error, setError] = useState<string>('');
 
   // Add a logout function
   const handleLogout = () => {
@@ -112,11 +113,11 @@ const Diary: React.FC = () => {
   }
 
   // Add separate handlers for login and register
-  // Remove handleLogin function completely
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(''); // Clear previous errors
     try {
       const response = await (isRegistering 
         ? diaryApi.register(username, password)
@@ -127,26 +128,28 @@ const Diary: React.FC = () => {
         setIsAuthenticated(true);
         localStorage.setItem('diaryUserId', response.userId);
         await fetchEntries(response.userId);
+      } else {
+        setError(response.message || 'Authentication failed');
       }
     } catch (error) {
-      console.error(isRegistering ? 'Registration failed:' : 'Login failed:', error);
+      setError(isRegistering 
+        ? 'Registration failed. Please try again.' 
+        : 'Invalid username or password.');
     } finally {
       setIsLoading(false);
     }
   };
-  
-  // Update the form's onSubmit handler
-  <form onSubmit={handleAuth} className="space-y-4">
-    {/* ... form inputs ... */}
-  </form>
 
-  // Update the form submission in the login/register section
+  // Update the login form to show error message
   if (!isAuthenticated) {
     return (
       <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-dancing-script text-center mb-6">
           {isRegistering ? "Create Your Diary" : "Dear Diary..."}
         </h2>
+        {error && (
+          <p className="text-red-500 text-sm text-center mb-4">{error}</p>
+        )}
         <form onSubmit={handleAuth} className="space-y-4">
           <div>
             <input
