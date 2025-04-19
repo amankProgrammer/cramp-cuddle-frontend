@@ -224,8 +224,7 @@ const MusicPlayer = () => {
               </div> {/* End of flex-col container */}
             </div> {/* End of card */}
           )
-        )
-        }
+        )}
         {/* Playlist section */}
         {!showSoundCloud && (
           <>
