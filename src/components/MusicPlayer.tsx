@@ -156,103 +156,148 @@ const MusicPlayer = () => {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
+  // Add this state near the other state declarations
+  const [showSoundCloud, setShowSoundCloud] = useState(false);
+  
+  // Add this button and iframe before the tracks.length === 0 check
   return (
     <div className="space-y-6">
       <div className="card">
-        <h2 className="text-xl font-semibold text-violet-700 mb-6">Relaxing Music</h2>
-
-        {tracks.length === 0 ? (
-          <div className="text-center p-8 bg-violet-50 rounded-lg">
-            <p className="text-violet-700 mb-2">No music files found</p>
-            <p className="text-sm text-violet-600">
-              Add your MP3, OGG, or WAV files to the src/assets/music directory
-            </p>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-semibold text-violet-700">Relaxing Music</h2>
+          <button
+            onClick={() => setShowSoundCloud(!showSoundCloud)}
+            className="text-sm text-violet-600 hover:text-violet-800"
+          >
+            {showSoundCloud ? 'Show Local Player' : 'Show SoundCloud Player'}
+          </button>
+        </div>
+  
+        {showSoundCloud ? (
+          <div className="rounded-lg overflow-hidden">
+            <iframe
+              width="100%"
+              height="450"
+              scrolling="no"
+              frameBorder="no"
+              allow="autoplay"
+              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1702546110&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+            ></iframe>
+            <div className="text-xs text-gray-400 mt-2 break-words">
+              <a
+                href="https://soundcloud.com/itslovesmusic"
+                title="ViralTones"
+                target="_blank"
+                className="hover:text-violet-500"
+              >
+                ViralTones
+              </a>{' '}
+              ·{' '}
+              <a
+                href="https://soundcloud.com/itslovesmusic/sets/top-50-bollywood-songs-2023"
+                title="Top 50 Bollywood Songs 2025"
+                target="_blank"
+                className="hover:text-violet-500"
+              >
+                Top 50 Bollywood Songs 2025
+              </a>
+            </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center">
-            {/* Track info */}
-            <div className="mb-6 text-center">
-              <div className="w-56 h-56 rounded-full bg-gradient-to-r from-violet-200 to-pink-200 flex items-center justify-center mb-4">
-                <div className={`w-48 h-48 rounded-full bg-white flex items-center justify-center transition-all ${isPlaying ? 'animate-pulse' : ''}`}>
-                  <div className="text-center p-4">
-                    <h3 className="font-semibold text-violet-700 text-lg mb-1 truncate max-w-36">
-                      {tracks[currentTrackIndex]?.title || "Unknown"}
-                    </h3>
-                    <p className="text-sm text-violet-600 truncate max-w-36">
-                      {tracks[currentTrackIndex]?.artist || "Unknown Artist"}
-                    </p>
+          // Existing player content
+          tracks.length === 0 ? (
+            <div className="text-center p-8 bg-violet-50 rounded-lg">
+              <p className="text-violet-700 mb-2">No music files found</p>
+              <p className="text-sm text-violet-600">
+                Add your MP3, OGG, or WAV files to the src/assets/music directory
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center">
+              {/* Track info */}
+              <div className="mb-6 text-center">
+                <div className="w-56 h-56 rounded-full bg-gradient-to-r from-violet-200 to-pink-200 flex items-center justify-center mb-4">
+                  <div className={`w-48 h-48 rounded-full bg-white flex items-center justify-center transition-all ${isPlaying ? 'animate-pulse' : ''}`}>
+                    <div className="text-center p-4">
+                      <h3 className="font-semibold text-violet-700 text-lg mb-1 truncate max-w-36">
+                        {tracks[currentTrackIndex]?.title || "Unknown"}
+                      </h3>
+                      <p className="text-sm text-violet-600 truncate max-w-36">
+                        {tracks[currentTrackIndex]?.artist || "Unknown Artist"}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
+  
+              {/* Progress bar */}
+              <div className="w-full h-2 bg-violet-100 rounded-full mb-2 overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-violet-400 to-pink-400"
+                  style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                ></div>
+              </div>
+  
+              {/* Time display */}
+              <div className="w-full flex justify-between text-xs text-gray-500 mb-4">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
+              </div>
+  
+              {/* Playback controls */}
+              <div className="flex items-center space-x-6 mb-4">
+                <button
+                  onClick={handlePrevious}
+                  className="text-violet-600 hover:text-violet-800 transition-colors"
+                >
+                  <SkipBack size={24} />
+                </button>
+  
+                <button
+                  onClick={handlePlayPause}
+                  className="w-14 h-14 rounded-full flex items-center justify-center text-white bg-gradient-to-r from-violet-500 to-pink-500 shadow-lg hover:shadow-xl transition-all"
+                >
+                  {isPlaying ? <Pause size={28} /> : <Play size={28} className="ml-1" />}
+                </button>
+  
+                <button
+                  onClick={handleNext}
+                  className="text-violet-600 hover:text-violet-800 transition-colors"
+                >
+                  <SkipForward size={24} />
+                </button>
+              </div>
+  
+              {/* Volume control */}
+              <div className="flex items-center space-x-2 w-full">
+                <button
+                  onClick={handleMuteToggle}
+                  className="text-violet-600"
+                >
+                  {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+                </button>
+  
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={isMuted ? 0 : volume}
+                  onChange={(e) => {
+                    const newVolume = parseFloat(e.target.value);
+                    setVolume(newVolume);
+                    if (isMuted && newVolume > 0) {
+                      setIsMuted(false);
+                    }
+                  }}
+                  className="w-full h-2 bg-violet-100 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-violet-500"
+                />
+              </div>
             </div>
-
-            {/* Progress bar */}
-            <div className="w-full h-2 bg-violet-100 rounded-full mb-2 overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-violet-400 to-pink-400"
-                style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-              ></div>
-            </div>
-
-            {/* Time display */}
-            <div className="w-full flex justify-between text-xs text-gray-500 mb-4">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-
-            {/* Playback controls */}
-            <div className="flex items-center space-x-6 mb-4">
-              <button
-                onClick={handlePrevious}
-                className="text-violet-600 hover:text-violet-800 transition-colors"
-              >
-                <SkipBack size={24} />
-              </button>
-
-              <button
-                onClick={handlePlayPause}
-                className="w-14 h-14 rounded-full flex items-center justify-center text-white bg-gradient-to-r from-violet-500 to-pink-500 shadow-lg hover:shadow-xl transition-all"
-              >
-                {isPlaying ? <Pause size={28} /> : <Play size={28} className="ml-1" />}
-              </button>
-
-              <button
-                onClick={handleNext}
-                className="text-violet-600 hover:text-violet-800 transition-colors"
-              >
-                <SkipForward size={24} />
-              </button>
-            </div>
-
-            {/* Volume control */}
-            <div className="flex items-center space-x-2 w-full">
-              <button
-                onClick={handleMuteToggle}
-                className="text-violet-600"
-              >
-                {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-              </button>
-
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={isMuted ? 0 : volume}
-                onChange={(e) => {
-                  const newVolume = parseFloat(e.target.value);
-                  setVolume(newVolume);
-                  if (isMuted && newVolume > 0) {
-                    setIsMuted(false);
-                  }
-                }}
-                className="w-full h-2 bg-violet-100 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-violet-500"
-              />
-            </div>
-          </div>
+          )}
         )}
       </div>
-
+  
       {/* Playlist */}
       {tracks.length > 0 && (
         <div className="card">
