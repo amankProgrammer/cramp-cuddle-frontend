@@ -294,10 +294,10 @@ const MusicPlayer = () => {
                 />
               </div>
             </div>
-          )}
+          )
         )}
       </div>
-  
+
       {/* Playlist */}
       {tracks.length > 0 && (
         <div className="card">
