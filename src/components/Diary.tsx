@@ -37,11 +37,14 @@ const Diary: React.FC = () => {
     setUserId(null);
   }, []);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await diaryApi.login(username, password);
+      const response = await (isRegistering 
+        ? diaryApi.register(username, password)
+        : diaryApi.login(username, password));
+      
       if (response.success) {
         setUserId(response.userId);
         setIsAuthenticated(true);
@@ -49,7 +52,7 @@ const Diary: React.FC = () => {
         await fetchEntries(response.userId);
       }
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error(isRegistering ? 'Registration failed:' : 'Login failed:', error);
     } finally {
       setIsLoading(false);
     }
