@@ -297,7 +297,6 @@ const MusicPlayer = () => {
           )
         )}
       </div>
-
       {/* Playlist */}
       {tracks.length > 0 && (
         <div className="card">
