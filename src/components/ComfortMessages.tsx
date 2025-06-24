@@ -41,7 +41,8 @@ const comfortMessages = [
   "You are so precious to me",
   "Tumhari value bahut jyada ha meri life me its uncomparable and infinite",
   "Keep calm babyyy keep loving me ",
-  "Tum pyar kro ya na kro , mai tumhe humesha pyar krta rhunga"
+  "Tum pyar kro ya na kro , mai tumhe humesha pyar krta rhunga",
+  "Sb theek hai baby mmmmmmmmm"
 ];
 
 const ComfortMessages = () => {
