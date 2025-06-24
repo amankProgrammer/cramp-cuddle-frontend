@@ -17,7 +17,7 @@ const comfortMessages = [
   "Periods bahut bekar hote h ptani ladkiyo ko he kyu hote h ladko ko bhi hone chahiye",
   "Mood shiii krlo baby apna bhi or mera bhi",
   "Tumhare bina achaa ni lgra kuch bhi",
-  "I misssss youuuuu jaaanuuu"
+  "I misssss youuuuu jaaanuuu",
   "Tum jb hasti ho toh mere dil k garden me flowers khil jate h",
   "Tum jb smile krti ho toh dil khush ho jata h mera",
   "Babyy jaldi milenge hold on",
@@ -32,7 +32,7 @@ const comfortMessages = [
   "Babyy tbiyat thik h tumhari mujhe update dete rha kro i am your doctor you know na",
   "Ladai krne k baad bhi sath me h or pyar kr rhe h isse bda proof kya chahiye tumhe humare kbhi na tootne wale pyar ka ",
   "tum , tum , tum , haan baby tum he ho meri wife mera pyar mera sb kuch",
-  "You are so beautiful"
+  "You are so beautiful",
   "You are so cute",
   "You are so kind",
   "You are so adorable",
