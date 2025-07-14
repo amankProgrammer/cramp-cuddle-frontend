@@ -5,7 +5,7 @@ const comfortMessages = [
   "Aaj tumhare periods aaye hain or tention mujhe ho rhi hai",
   "Apna khyal rkho babyyy",
   "  I LOVE SO MUCH <3 ",
-  "Tum sti hui bahut pyari lgti ho",
+  "Tum soti hui bahut pyari lgti ho",
   "I wanted to wake up everyday with you",
   "I wanted to sleep every night with you",
   "You are my Princess",
