@@ -9,6 +9,7 @@ import Gallery from './components/Gallery';
 import Memories from './components/Memories';
 import Animations from './components/Animations';
 import Diary from './components/Diary';
+import DIYImages from './components/DIYImages';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -31,6 +32,7 @@ const App = () => {
         return (
           <div className="space-y-6">
             <ComfortMessages />
+            <DIYImages />
             <RelaxationTimer />
             <SelfCare />
           </div>
