@@ -642,7 +642,7 @@ const MusicPlayer = () => {
       )}
       
       {/* Add CSS animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes floorLightPulse {
           0%, 100% { opacity: 0.3; }
           50% { opacity: 0.8; }
