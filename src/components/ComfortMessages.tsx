@@ -124,7 +124,7 @@ const ComfortMessages = () => {
   };
 
   return (
-    <div className="card bg-gradient-to-r from-violet-100 to-pink-100">
+    <div className="card bg-gradient-to-r from-violet-100 to-pink-100 ">
       <h2 className="text-xl font-semibold text-violet-700 mb-4">Comfort Message</h2>
       <p className="text-lg text-violet-800 font-medium italic mb-6">"{currentMessage}"</p>
       <button 

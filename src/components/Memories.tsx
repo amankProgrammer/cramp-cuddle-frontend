@@ -45,7 +45,7 @@ const Memories = () => {
       return (
         <div className="fixed inset-0 z-10 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-all duration-300">
           <div
-            className="relative bg-white shadow-2xl max-w-2xl w-full rounded-lg overflow-hidden"
+            className="relative bg-gradient-to-r from-rose-200 to-pink-200 shadow-2xl max-w-2xl w-full rounded-lg overflow-hidden"
             style={{
               transform: `scale(0.95) perspective(800px) rotateY(4deg)`,
               transition: 'transform 0.5s ease',
@@ -82,10 +82,10 @@ const Memories = () => {
     }
 
     return (
-      <div className="card">
+      <div className="card bg-gradient-to-r from-rose-200 to-pink-200">
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-violet-700">Memories</h2>
-          <p className="text-gray-500 text-sm mt-1">
+          <h2 className="text-xl font-bold text-center text-violet-700">Memories</h2>
+          <p className="text-gray-500 text-m text-center mt-1">
             A nostalgic collection of special moments
           </p>
         </div>

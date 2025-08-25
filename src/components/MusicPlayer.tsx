@@ -537,7 +537,7 @@ const MusicPlayer = () => {
 
       {/* Update playlist section to match dark theme */}
       {tracks.length > 0 && (
-        <div className="card bg-gray-900 text-white">
+        <div className="card bg-gradient-to-r from-rose-200 to-pink-200 text-white">
           {/* Keep existing playlist code but update colors to match dark theme */}
           <div className="flex justify-between items-center mb-4">
             <h2 className={`text-xl font-semibold ${mediaType === 'video' ? 'text-white' : 'text-violet-700'}`}>Media Library</h2>

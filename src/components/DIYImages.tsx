@@ -38,9 +38,9 @@ const DIYImages = () => {
   }, []);
 
   return (
-    <div className="card">
+    <div className="card bg-gradient-to-r from-violet-100 to-pink-100">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-violet-700">DIY Inspiration</h2>
+        <h2 className="text-xl font-semibold text-violet-700">Inspiration</h2>
         <button 
           onClick={selectRandomImage}
           className="p-2 rounded-full hover:bg-violet-100 text-violet-600 transition-colors"
@@ -52,7 +52,7 @@ const DIYImages = () => {
       
       {currentImage ? (
         <div 
-          className="rounded-lg overflow-hidden bg-violet-50 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+          className="rounded-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
         >
           <div className="flex justify-center items-center max-h-96 overflow-hidden">
             <img 

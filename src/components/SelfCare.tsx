@@ -35,7 +35,7 @@ const SelfCare = () => {
   ];
 
   return (
-    <div className="card">
+    <div className="card bg-gradient-to-r from-violet-100 to-pink-100">
       <h2 className="text-xl font-semibold text-violet-700 mb-4">Self-Care Suggestions</h2>
       
       <div className="space-y-6">

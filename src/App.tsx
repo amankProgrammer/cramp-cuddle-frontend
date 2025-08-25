@@ -17,7 +17,7 @@ const App = () => {
   useEffect(() => {
     // Load Google Font
     const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;700&display=swap';
+    link.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;500;600&display=swap';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
 
@@ -51,54 +51,56 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-r from-violet-100 to-pink-100">
       {/* Decorative animations */}
       <Animations />
 
-      <header className="bg-white shadow-sm py-4">
-        <div className="container mx-auto px-4">
-          <h1 className="text-2xl font-bold text-violet-500 text-center">CrampCuddle</h1>
+      <header className="py-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-rose-100/50 to-pink-200/50 backdrop-blur-sm"></div>
+        <div className="container mx-auto px-4 relative">
+          <h1 className="text-4xl font-great-vibes text-rose-600 text-center drop-shadow-sm">CrampCuddle</h1>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-gradient-to-r from-rose-200/20 to-pink-200/20 rounded-full blur-3xl -z-10"></div>
         </div>
       </header>
 
       <main className="flex-1 container mx-auto px-4 py-6">
         {renderContent()}
       </main>
-
-      <nav className="bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] py-2">
+      
+      <nav className="bg-rose-100 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] py-2 ">
         <div className="container mx-auto">
           <div className="flex justify-around items-center">
             <button
               onClick={() => setActiveTab('home')}
-              className={`p-3 flex flex-col items-center ${activeTab === 'home' ? 'text-violet-500' : 'text-gray-500'}`}
+              className={`p-3 flex flex-col items-center ${activeTab === 'home' ? 'text-rose-300' : 'text-violet-800'}`}
             >
               <House size={20} />
               <span className="text-xs mt-1">Home</span>
             </button>
             <button
               onClick={() => setActiveTab('music')}
-              className={`p-3 flex flex-col items-center ${activeTab === 'music' ? 'text-violet-500' : 'text-gray-500'}`}
+              className={`p-3 flex flex-col items-center ${activeTab === 'music' ? 'text-rose-300' : 'text-violet-800'}`}
             >
               <Music size={20} />
               <span className="text-xs mt-1">Music</span>
             </button>
             <button
               onClick={() => setActiveTab('gallery')}
-              className={`p-3 flex flex-col items-center ${activeTab === 'gallery' ? 'text-violet-500' : 'text-gray-500'}`}
+              className={`p-3 flex flex-col items-center ${activeTab === 'gallery' ? 'text-rose-300' : 'text-violet-800'}`}
             >
               <Image size={20} />
               <span className="text-xs mt-1">Gallery</span>
             </button>
             <button
               onClick={() => setActiveTab('memories')}
-              className={`p-3 flex flex-col items-center ${activeTab === 'memories' ? 'text-violet-500' : 'text-gray-500'}`}
+              className={`p-3 flex flex-col items-center ${activeTab === 'memories' ? 'text-rose-300' : 'text-violet-800'}`}
             >
               <Heart size={20} />
               <span className="text-xs mt-1">Memories</span>
             </button>
             <button
               onClick={() => setActiveTab('diary')}
-              className={`p-3 flex flex-col items-center ${activeTab === 'diary' ? 'text-violet-500' : 'text-gray-500'}`}
+              className={`p-3 flex flex-col items-center ${activeTab === 'diary' ? 'text-rose-300' : 'text-violet-800'}`}
             >
               <Book size={20} />
               <span className="text-xs mt-1">Diary</span>

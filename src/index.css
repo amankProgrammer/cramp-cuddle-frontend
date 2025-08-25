@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
-  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'playfair', 'great-vibes', 'cormorant';
   --primary: #a78bfa;
   --primary-light: #c4b5fd;
   --primary-dark: #8b5cf6;
