@@ -78,7 +78,7 @@ const Gallery = () => {
       <div className="card bg-gradient-to-r from-rose-200 to-pink-200">
         <div className="mb-6">
           <h2 className="text-xl text-center font-semibold text-violet-700">Your Gallery</h2>
-          
+
         </div>
 
         {images.length === 0 ? (

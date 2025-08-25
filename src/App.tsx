@@ -17,7 +17,7 @@ const App = () => {
   useEffect(() => {
     // Load Google Font
     const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;500;600&display=swap';
+    link.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;500;600&family=Dancing+Script:wght@400;700&family=Architects+Daughter&display=swap';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
 

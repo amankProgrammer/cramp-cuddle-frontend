@@ -2,15 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* --- General Styles --- */
 :root {
-  font-family: 'playfair', 'great-vibes', 'cormorant';
   --primary: #a78bfa;
   --primary-light: #c4b5fd;
   --primary-dark: #8b5cf6;
   --secondary: #f9a8d4;
   --secondary-light: #fbcfe8;
-  --background: #faf5ff;
+  --background: #f1e3d3; /* Soft, warm paper color */
 }
 
 body {
@@ -19,6 +18,7 @@ body {
   min-height: 100vh;
 }
 
+/* --- Tailwind Components --- */
 .card {
   @apply rounded-xl bg-white shadow-md p-6 transition-all duration-300;
 }
@@ -39,6 +39,7 @@ body {
   @apply px-4 py-2 rounded-lg border border-violet-200 focus:border-violet-400 focus:outline-none;
 }
 
+/* --- Animations --- */
 @keyframes pulse {
   0%, 100% {
     transform: scale(1);
@@ -54,7 +55,6 @@ body {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Animation styles */
 .animations-container {
   position: fixed;
   top: 0;
@@ -106,7 +106,7 @@ body {
   animation-iteration-count: infinite;
 }
 
-/* Memories Component Styles */
+/* --- Memories Component Styles --- */
 .memory-card {
   transition: all 0.3s ease;
   transform-origin: center;
@@ -117,7 +117,69 @@ body {
   z-index: 20;
 }
 
-.font-handwriting {
-  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+/* --- New Diary/Notebook Specific Styles --- */
+.font-architects-daughter {
+  font-family: 'Architects Daughter', cursive;
+}
+
+.font-dancing-script {
   font-family: 'Dancing Script', cursive;
 }
+
+.font-playfair-display {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-cormorant-garamond {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.notebook-container {
+  box-shadow:
+    -10px 10px 20px rgba(0, 0, 0, 0.2), /* Bottom shadow for depth */
+    -20px 0 30px rgba(0, 0, 0, 0.1) inset; /* Shadow on the spine */
+}
+
+.lined-paper {
+  /* This creates a subtle lined paper effect using a CSS gradient */
+  background:
+    linear-gradient(to bottom, transparent 24px, #a8a8a8 25px)
+    repeat-y 0 0 / 100% 25px,
+    #fffbf0;
+}
+
+.page-curl {
+  position: relative;
+}
+
+.page-curl::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.2);
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+/* Other CSS styles... */
+
+/* New CSS for the sliding page effect */
+.page-slide-enter-active,
+.page-slide-leave-active {
+  transition: transform 0.8s ease-in-out;
+}
+
+.page-slide-enter-from {
+  transform: translateX(100%);
+  z-index: 10;
+}
+
+.page-slide-leave-to {
+  transform: translateX(-100%);
+  z-index: 0;
+}
+
